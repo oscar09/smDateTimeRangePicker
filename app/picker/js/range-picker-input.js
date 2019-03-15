@@ -185,7 +185,14 @@
 
 
         self.isCalenderOpen =true;
-        self.$document.on('click', self.bodyClickHandler);
+
+        /* In chrome v73.0.3683.75  the popup immediately closes after it is opened.
+        It seems that a "click" event is triggered when the popup opens. To prevent it,
+        a delay is added. */
+        setTimeout(function()
+        {
+            self.$document.on('click', self.bodyClickHandler);
+        }, 1000);
     };
 
 
