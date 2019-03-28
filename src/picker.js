@@ -1526,10 +1526,15 @@ app.provider('picker', [picker]);
         /* In chrome v73.0.3683.75  the popup immediately closes after it is opened.
         It seems that a "click" event is triggered when the popup opens. To prevent it,
         a delay is added. */
-        setTimeout(function()
+        self._$delayApplied = self._$delayApplied || false;
+        if(!self._$delayApplied)
         {
-            self.$document.on('click', self.bodyClickHandler);
-        }, 1000);
+            setTimeout(function()
+            {
+                    self._$delayApplied = true;
+                    self.$document.on('click', self.bodyClickHandler);
+            }, 1000);
+        }
     };
 
 
