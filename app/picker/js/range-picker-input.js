@@ -49,7 +49,7 @@
                                     var _temp = [];
                                     if(newVal.startDate)
                                     {
-                                        _temp.push(moment(newVal.startDate).format(scope.vm.format || 'YYYY-MM-DD'));
+                                        _temp.push(moment.utc(newVal.startDate).format(scope.vm.format || 'YYYY-MM-DD'));
                                     }else
                                     {
                                         _temp.push('Any');
@@ -57,7 +57,7 @@
                                     _temp.push(scope.vm.divider);
                                     if(newVal.endDate)
                                     {
-                                        _temp.push(moment(newVal.endDate).format(scope.vm.format || 'YYYY-MM-DD'));
+                                        _temp.push(moment.utc(newVal.endDate).format(scope.vm.format || 'YYYY-MM-DD'));
                                     }else
                                     {
                                         _temp.push('Any');
@@ -127,7 +127,6 @@
                 break;
             }
         });
-
     };
 
 
@@ -182,6 +181,7 @@
 
         self.calenderPan.addClass('show');
         self.$mdUtil.disableScrollAround(self.calenderPane);
+<<<<<<< HEAD
 
 
         self.isCalenderOpen =true;
@@ -193,6 +193,9 @@
         {
             self.$document.on('click', self.bodyClickHandler);
         }, 1000);
+=======
+        self.$document.on('click', self.bodyClickHandler);
+>>>>>>> master
     };
 
 
@@ -219,13 +222,22 @@
 
     SMRangePickerCtrl.prototype.clickOutSideHandler = function(e){
         var self = this;
+        if(e.target && e.target.nodeName === 'BODY')
+        {
+            return;
+        }
+
         if(!self.button){
-            if ((self.calenderPane !== e.target && self.inputPane !== e.target ) && (!self.calenderPane.contains(e.target) && !self.inputPane.contains(e.target))) {
+            if (( self.calenderPane !== e.target && self.inputPane !== e.target ) &&
+                (!self.calenderPane.contains(e.target) && !self.inputPane.contains(e.target) ) )
+            {
+                //(!self.calenderPane.contains(e.target) && !self.inputPane.contains(e.target))) {
                 self.$scope.$broadcast('range-picker-input:blur');
                 self.hideElement();
             }
         }else{
-            if ((self.calenderPane !== e.target && self.button !== e.target ) && (!self.calenderPane.contains(e.target) && !self.button.contains(e.target))) {
+            if ((self.calenderPane !== e.target && self.button !== e.target ) &&
+                (!self.calenderPane.contains(e.target) && !self.button.contains(e.target))) {
                 self.hideElement();
             }
         }

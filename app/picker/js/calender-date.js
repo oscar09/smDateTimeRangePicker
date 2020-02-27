@@ -100,7 +100,7 @@
 
                 if(this.currentIndex_ < index){
                     this.currentIndex_ = index;
-                    return this.START + index;                    
+                    return this.START + index;
                 } 
                 if(this.currentIndex_ < index){
                     this.currentIndex_ = index;
@@ -180,8 +180,16 @@
 
     CalenderCtrl.prototype.showYear = function() {
         var self = this;
-        self.yearTopIndex = (self.initialDate.year() - self.yearItems.START) + Math.floor(self.yearItems.PAGE_SIZE / 2);
-        self.yearItems.currentIndex_ = (self.initialDate.year() - self.yearItems.START)-1;
+        self.showVirtualContainer = false;
+        //self.yearTopIndex = (self.initialDate.year() - self.yearItems.START) + Math.floor(self.yearItems.PAGE_SIZE / 2);
+        self.yearTopIndex = self.initialDate.year() - self.yearItems.START - 1;
+        //self.yearItems.currentIndex_ = (self.initialDate.year() - self.yearItems.START)-1;
+        self.yearItems.currentIndex_ = (moment().year() - self.yearItems.START)-1;
+        
+        /* workaround to rebuild the virtual repeater */
+        self.$timeout(function(){
+            self.showVirtualContainer = true;
+        }, 50);
     };
 
 
@@ -257,7 +265,6 @@
             self.moveCalenderAnimation='slideLeft';
             self.initialDate.subtract(1, 'M');
         }else{
-            console.log(self.stopScrollNext);            
             if(self.stopScrollNext) return;
             self.moveCalenderAnimation='slideRight';
             self.initialDate.add(1, 'M');
@@ -275,14 +282,20 @@
         if (isDisabled) {
             return;
         }
-        self.currentDate = d;
-        self.$scope.dateSelectCall({date:d});
-        /*
-        * No need to save the model yet. It must be stored until "save" is clicked.
-        * @see bug #147.
-        * self.setNgModelValue(d);
-        */
-        self.$scope.$emit('calender:date-selected');
+
+        /* Related to issue #173. After chrome v73, the calendar started to fail. I did not find
+        any explanation yet but this delay fix the issue. */
+        self.$timeout(function(){
+            self.currentDate = d;
+            self.$scope.dateSelectCall({date:d});
+            /*
+            * No need to save the model yet. It must be stored until "save" is clicked.
+            * @see bug #147.
+            * self.setNgModelValue(d);
+            */
+            self.$scope.$emit('calender:date-selected');
+        }, 0);
+
 
     };
 
