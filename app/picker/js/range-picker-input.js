@@ -182,9 +182,6 @@
         self.calenderPan.addClass('show');
         self.$mdUtil.disableScrollAround(self.calenderPane);
 <<<<<<< HEAD
-        self.$document.on('click', self.bodyClickHandler);
-=======
-<<<<<<< HEAD
 
 
         self.isCalenderOpen =true;
@@ -199,7 +196,6 @@
 =======
         self.$document.on('click', self.bodyClickHandler);
 >>>>>>> master
->>>>>>> develop
     };
 
 
