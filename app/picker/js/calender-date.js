@@ -100,7 +100,7 @@
 
                 if(this.currentIndex_ < index){
                     this.currentIndex_ = index;
-                    return this.START + index;                    
+                    return this.START + index;
                 } 
                 if(this.currentIndex_ < index){
                     this.currentIndex_ = index;
@@ -180,8 +180,16 @@
 
     CalenderCtrl.prototype.showYear = function() {
         var self = this;
-        self.yearTopIndex = (self.initialDate.year() - self.yearItems.START) + Math.floor(self.yearItems.PAGE_SIZE / 2);
-        self.yearItems.currentIndex_ = (self.initialDate.year() - self.yearItems.START)-1;
+        self.showVirtualContainer = false;
+        //self.yearTopIndex = (self.initialDate.year() - self.yearItems.START) + Math.floor(self.yearItems.PAGE_SIZE / 2);
+        self.yearTopIndex = self.initialDate.year() - self.yearItems.START - 1;
+        //self.yearItems.currentIndex_ = (self.initialDate.year() - self.yearItems.START)-1;
+        self.yearItems.currentIndex_ = (moment().year() - self.yearItems.START)-1;
+        
+        /* workaround to rebuild the virtual repeater */
+        self.$timeout(function(){
+            self.showVirtualContainer = true;
+        }, 50);
     };
 
 
