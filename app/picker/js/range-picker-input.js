@@ -181,9 +181,6 @@
 
         self.calenderPan.addClass('show');
         self.$mdUtil.disableScrollAround(self.calenderPane);
-<<<<<<< HEAD
-
-
         self.isCalenderOpen =true;
 
         /* In chrome v73.0.3683.75  the popup immediately closes after it is opened.
@@ -193,9 +190,6 @@
         {
             self.$document.on('click', self.bodyClickHandler);
         }, 1000);
-=======
-        self.$document.on('click', self.bodyClickHandler);
->>>>>>> master
     };
 
 
